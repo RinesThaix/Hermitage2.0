@@ -23,3 +23,5 @@ Server/.mvn/timing.properties
 
 ### Server
 *.log*
+*.jpg
+*.png
