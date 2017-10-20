@@ -1,0 +1,22 @@
+### IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+### Maven
+Server/.idea/
+Server/*.iml
+Server/target/
+Server/pom.xml.tag
+Server/pom.xml.releaseBackup
+Server/pom.xml.versionsBackup
+Server/pom.xml.next
+Server/release.properties
+Server/buildNumber.properties
+.mvn/timing.properties
+Server/.mvn/timing.properties
+
+### MacOS
+.DS_Store
+*/.DS_Store
