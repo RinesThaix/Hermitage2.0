@@ -4,7 +4,12 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import mem.kitek.server.sql.table.ColumnType;
+import mem.kitek.server.sql.table.TableColumn;
+import mem.kitek.server.sql.table.TableConstructor;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,7 +37,16 @@ public class HallManager {
             });
 
     public static void init() {
-        initCamsToHallsRelative();
+        new TableConstructor("cameras",
+                new TableColumn("camera_id", ColumnType.INT).primary(true),
+                new TableColumn("hall_id", ColumnType.INT)
+        ).create(Bootstrap.getDatabase());
+        try(ResultSet set = Bootstrap.getDatabase().query("SELECT * FROM cameras")) {
+            while(set.next())
+                registerCam(set.getInt(1), set.getInt(2));
+        }catch(SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static void changeOnline(int camId, int online) {
@@ -44,11 +58,6 @@ public class HallManager {
         if(!HALLS_TO_CAMS_RELATIVE.containsKey(hallId))
             return -1;
         return HALLS_ONLINE.getUnchecked(hallId);
-    }
-
-    private static void initCamsToHallsRelative() {
-        registerCam(1, 1);
-        registerCam(2, 2);
     }
 
     private static void registerCam(int camId, int hallId) {

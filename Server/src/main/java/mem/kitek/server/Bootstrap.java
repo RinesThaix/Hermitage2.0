@@ -6,6 +6,8 @@ import mem.kitek.server.logger.LoggingOutputStream;
 import mem.kitek.server.spring.ApiController;
 import mem.kitek.server.spring.HeadController;
 import mem.kitek.server.spring.WebController;
+import mem.kitek.server.sql.Connector;
+import mem.kitek.server.sql.ConnectorBuilder;
 import org.fusesource.jansi.AnsiConsole;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -25,12 +27,25 @@ public class Bootstrap {
 
     private static ApplicationContext context;
 
+    private static Connector connector;
+
     public static void main(String[] args) {
         ConsoleReader reader = setupLogger();
+        setupDatabase();
         ApiManager.init();
         HallManager.init();
         setupSpring();
         runConsole(reader);
+    }
+
+    private static void setupDatabase() {
+        connector = new ConnectorBuilder()
+                .setName("Hermitage")
+                .setUser("root")
+                .setPassword("root")
+                .setHost("localhost:3306")
+                .setDatabase("hermitage")
+                .build(true);
     }
 
     private static void setupSpring() {
@@ -81,6 +96,10 @@ public class Bootstrap {
 
     public static FormatLogger getLogger() {
         return logger;
+    }
+
+    public static Connector getDatabase() {
+        return connector;
     }
 
 }
