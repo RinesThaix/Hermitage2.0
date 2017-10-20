@@ -9,4 +9,6 @@ public interface IPeopleCalculus {
 
     ImageNeuralParsingResult parse(Path path);
 
+    void shutdown();
+
 }
