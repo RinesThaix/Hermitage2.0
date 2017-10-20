@@ -1,12 +1,6 @@
-import java.io.BufferedReader;
+package mem.kitek.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -14,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This utility class provides an abstraction layer for sending multipart HTTP
- * POST requests to a web server.
- * @author www.codejava.net
- *
+ * Created by RINES on 21.10.17.
  */
 public class MultipartUtility {
     private final String boundary;

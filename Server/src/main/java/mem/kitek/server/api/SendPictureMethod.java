@@ -16,7 +16,7 @@ import java.nio.file.Path;
  */
 public class SendPictureMethod {
 
-    private final static File temporary = new File("temporary");
+    public final static File temporary = new File("temporary");
     private final static IPeopleCalculus calculus;
 
     static {
@@ -37,15 +37,17 @@ public class SendPictureMethod {
         Files.write(tempImage.toPath(), image);
         ImageNeuralParsingResult result = getPeopleOn(tempImage.toPath());
         if(result != null) {
+            System.out.println("People returned: " + result.getPeople());
             HallManager.changeOnline(camId, result.getPeople());
-            ImageDisplayer.display(result.getPathToHighlightedImage());
+            if(camId == 1)
+                ImageDisplayer.display(result.getPathToHighlightedImage());
             result.getPathToHighlightedImage().toFile().delete();
         }
         tempImage.delete();
     }
 
     private synchronized static ImageNeuralParsingResult getPeopleOn(Path path) {
-        return calculus == null ? null : calculus.parse(path);
+        return calculus.parse(path);
     }
 
 }

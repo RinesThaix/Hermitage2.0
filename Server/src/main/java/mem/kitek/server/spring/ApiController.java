@@ -37,8 +37,6 @@ public class ApiController {
             return ApiError.ILLEGAL_ARGUMENT_FORMAT.toJson();
         try {
             SendPictureMethod.process(image[0].getOriginalFilename(), image[0].getBytes(), cam_id);
-        }catch(ArgumentNotSpecifiedException ex) {
-            return ApiError.ARGUMENT_NOT_SPECIFIED.toJson(ex.getArgument());
         }catch(NumberFormatException ex) {
             return ApiError.ILLEGAL_ARGUMENT_FORMAT.toJson();
         }catch(Exception ex) {

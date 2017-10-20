@@ -14,8 +14,8 @@ public class ImageDisplayer {
     }
 
     public static void display(Path imagePath) throws Exception {
-        File image = imagePath.toFile();
-        File copy = new File(image.getParentFile(), System.currentTimeMillis() + ".png");
+        File copy = new File("/root/Server/src/main/webapp", "test.jpg");
+        copy.delete();
         Files.copy(imagePath, copy.toPath());
     }
 

@@ -15,8 +15,8 @@ public class Darknet implements IPeopleCalculus {
     private final static String cmd = "darknet/darknet detect " +
             "darknet/cfg/yolo.cfg " +
             "darknet/yolo.weights";
-    private final static String RESULT_PATH = "predictions.jpg";
-    private int threshold = 0; // now match everything that looks like a person
+    private final static String RESULT_PATH = "predictions.png";
+    private int threshold = 55; // now match everything that looks like a person
 
     private volatile boolean isLoaded;
     private Scanner in;
