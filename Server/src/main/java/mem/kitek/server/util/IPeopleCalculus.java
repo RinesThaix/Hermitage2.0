@@ -7,6 +7,6 @@ import java.nio.file.Path;
  */
 public interface IPeopleCalculus {
 
-    int getPeopleOn(Path path);
+    ImageNeuralParsingResult parse(Path path);
 
 }
