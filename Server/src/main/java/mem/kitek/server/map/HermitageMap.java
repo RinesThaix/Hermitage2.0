@@ -175,6 +175,12 @@ public class HermitageMap {
         e(110, 241);
         e(110, 246);
         e(241, 246);
+
+        //Входы первого этажа
+        e(0, 11);
+        e(0, 24);
+        e(0, 100);
+        e(0, 89);
     }
 
     private static void eup(int a, int b) {
