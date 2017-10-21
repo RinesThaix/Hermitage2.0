@@ -21,6 +21,8 @@ public class GetHallsGeneralInfo extends ApiMethod {
         JSONObject json = new JSONObject();
         json.put("categories_in_total", HallManager.getHallsCategoriesSize());
         json.put("halls_in_total", HallManager.getHallsSize());
+        json.put("buildings_in_total", HallManager.getBuildingsSize());
+        json.put("people_in_total", HallManager.getSummaryOnline());
         return json.toJSONString();
     }
 

@@ -28,11 +28,18 @@ public class GetHallById extends ApiMethod {
         json.put("hall_id", id);
         json.put("hall_name", hall.getName());
         json.put("hall_floor", hall.getFloor());
+        json.put("people", HallManager.getHallOnline(id));
         JSONObject category = new JSONObject();
         category.put("id", hall.getCategory().getId());
         category.put("name", hall.getCategory().getName());
         category.put("images", hall.getCategory().getImages());
         json.put("category", category);
+        JSONObject building = new JSONObject();
+        building.put("id", hall.getBuilding().getId());
+        building.put("name", hall.getBuilding().getName());
+        building.put("floor_limit", hall.getBuilding().getPeopleLimit(hall.getFloor()));
+        building.put("people_on_floor", hall.getBuilding().getPeopleOnFloor(hall.getFloor()));
+        json.put("building", building);
         return json.toJSONString();
     }
 

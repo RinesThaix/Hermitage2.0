@@ -8,12 +8,14 @@ public class Hall {
     private final int id;
     private final String name;
     private final HallCategory category;
+    private final Building building;
     private final int floor;
 
-    public Hall(int id, String name, HallCategory category, int floor) {
+    public Hall(int id, String name, HallCategory category, Building building, int floor) {
         this.id = id;
         this.name = name;
         this.category = category;
+        this.building = building;
         this.floor = floor;
     }
 
@@ -27,6 +29,10 @@ public class Hall {
 
     public HallCategory getCategory() {
         return this.category;
+    }
+
+    public Building getBuilding() {
+        return this.building;
     }
 
     public int getFloor() {

@@ -9,9 +9,9 @@ public class ApiManager {
 
     public static void init() {
         new TestMethod();
-        new GetPeopleInHall();
         new GetHallById();
         new GetHallCategoryById();
+        new GetBuildingById();
         new GetHallsGeneralInfo();
         new GetPictures();
     }

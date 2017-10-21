@@ -4,11 +4,13 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import mem.kitek.server.commons.Building;
 import mem.kitek.server.commons.Hall;
 import mem.kitek.server.commons.HallCategory;
 import mem.kitek.server.sql.table.ColumnType;
 import mem.kitek.server.sql.table.TableColumn;
 import mem.kitek.server.sql.table.TableConstructor;
+import mem.kitek.server.util.CachedInteger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,8 +39,10 @@ public class HallManager {
                     }).sum();
                 }
             });
+    private final static CachedInteger SUMMARY_ONLINE = new CachedInteger(10000L, () -> HALLS_ONLINE.asMap().values().stream().mapToInt(i -> i).sum());
     private final static Map<Integer, Hall> HALLS = new HashMap<>();
     private final static Map<Integer, HallCategory> HALL_CATEGORIES = new HashMap<>();
+    private final static Map<Integer, Building> BUILDINGS = new HashMap<>();
 
     public static void init() {
         new TableConstructor("cameras",
@@ -61,6 +65,15 @@ public class HallManager {
         }catch(SQLException ex) {
             ex.printStackTrace();
         }
+        try(ResultSet set = Bootstrap.getDatabase().query("SELECT * FROM buildings")) {
+            while(set.next()) {
+                int id = set.getInt(1);
+                Building building = new Building(id, set.getString(2));
+                BUILDINGS.put(id, building);
+            }
+        }catch(SQLException ex) {
+            ex.printStackTrace();
+        }
         try(ResultSet set = Bootstrap.getDatabase().query("SELECT * FROM hall_categories")) {
             while(set.next()) {
                 int id = set.getInt(1);
@@ -73,7 +86,7 @@ public class HallManager {
         try(ResultSet set = Bootstrap.getDatabase().query("SELECT * FROM halls")) {
             while(set.next()) {
                 int id = set.getInt(1);
-                Hall hall = new Hall(id, set.getString(2), HALL_CATEGORIES.get(set.getInt(3)), set.getInt(4));
+                Hall hall = new Hall(id, set.getString(2), HALL_CATEGORIES.get(set.getInt(3)), BUILDINGS.get(set.getInt(4)), set.getInt(5));
                 HALLS.put(id, hall);
             }
         }catch(SQLException ex) {
@@ -92,6 +105,14 @@ public class HallManager {
         return HALLS_ONLINE.getUnchecked(hallId);
     }
 
+    public static int getFloorOnline(Building building, int floor) {
+        return building.getPeopleOnFloor(floor);
+    }
+
+    public static int getSummaryOnline() {
+        return SUMMARY_ONLINE.get();
+    }
+
     public static Hall getHall(int id) {
         return HALLS.get(id);
     }
@@ -100,12 +121,30 @@ public class HallManager {
         return HALL_CATEGORIES.get(id);
     }
 
+    public static Building getBuilding(int id) {
+        return BUILDINGS.get(id);
+    }
+
     public static int getHallsSize() {
         return HALLS.size();
     }
 
     public static int getHallsCategoriesSize() {
         return HALL_CATEGORIES.size();
+    }
+
+    public static int getBuildingsSize() {
+        return BUILDINGS.size();
+    }
+
+    public static int calculatePeopleOnFloor(Building building, int floor) {
+        return HALLS.values().stream()
+                .filter(hall -> hall.getBuilding() == building && hall.getFloor() == floor)
+                .mapToInt(hall -> {
+                    int people = getHallOnline(hall.getId());
+                    return people == -1 ? 0 : people;
+                })
+                .sum();
     }
 
     private static void registerCam(int camId, int hallId) {
