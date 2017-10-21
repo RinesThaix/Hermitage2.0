@@ -15,6 +15,7 @@ public class ApiManager {
         new GetHallsGeneralInfo();
         new GetPictures();
         new TinderFinished();
+        new BunchPeopleInHalls();
     }
 
 }

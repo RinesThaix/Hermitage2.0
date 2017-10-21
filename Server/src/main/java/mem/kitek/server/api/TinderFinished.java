@@ -8,7 +8,6 @@ import mem.kitek.server.commons.HallCategory;
 import mem.kitek.server.util.IRecommendation;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,7 +16,7 @@ import java.util.Set;
  */
 public class TinderFinished extends ApiMethod {
 
-    private final IRecommendation recommendation = map -> new HashSet<>();
+    private final IRecommendation recommendation = new IRecommendationImpl();
 
     public TinderFinished() {
         super("tinderFinished", Lists.newArrayList(), Lists.newArrayList());
