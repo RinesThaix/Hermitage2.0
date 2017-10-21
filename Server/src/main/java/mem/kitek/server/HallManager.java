@@ -14,11 +14,9 @@ import mem.kitek.server.util.CachedInteger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Created by RINES on 20.10.17.
@@ -119,6 +117,10 @@ public class HallManager {
 
     public static HallCategory getHallCategory(int id) {
         return HALL_CATEGORIES.get(id);
+    }
+
+    public static Collection<Hall> getHallsByCategory(HallCategory category) {
+        return HALLS.values().stream().filter(hall -> hall.getCategory() == category).collect(Collectors.toSet());
     }
 
     public static Building getBuilding(int id) {
