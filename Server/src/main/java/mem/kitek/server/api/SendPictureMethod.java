@@ -37,7 +37,6 @@ public class SendPictureMethod {
         Files.write(tempImage.toPath(), image);
         ImageNeuralParsingResult result = getPeopleOn(tempImage.toPath());
         if(result != null) {
-            System.out.println("People returned: " + result.getPeople());
             HallManager.changeOnline(camId, result.getPeople());
             if(camId == 1)
                 ImageDisplayer.display(result.getPathToHighlightedImage());
