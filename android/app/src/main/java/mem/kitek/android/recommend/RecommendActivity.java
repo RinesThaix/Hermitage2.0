@@ -53,12 +53,6 @@ public class RecommendActivity extends BaseActivity {
                 .inject(this);
     }
 
-    public void setCards(Object[] objects) {
-        adapter = new AsinineAdapter(this, imageList);
-        recycler.setAdapter(adapter);
-
-    }
-
     @Module
     class Exposer {
         @Provides
@@ -70,9 +64,6 @@ public class RecommendActivity extends BaseActivity {
     @AfterViews
     void init() {
         fuckUpRecycler();
-
-        presenter.requestCards();
-
     }
 
     private void fuckUpRecycler() {

@@ -19,9 +19,12 @@ public interface ServiceAPI {
     Observable<Response<ApiData.HallInfo>> getHallInfo(@Query("hall_id") int hallId);
 
     // typeme!
-    @GET("categories/{cid}/{pid}.jpg")
-    Observable<Response<?>> getPicture(@Path("cid") int cid, @Path("pid") int pid);
+//    @GET("categories/{cid}/{pid}.jpg")
+//    Observable<Response<?>> getPicture(@Path("cid") int cid, @Path("pid") int pid);
 
     @GET("bunchPeopleInHalls")
     Observable<Response<ApiData.PeopleList>> getBatchPop(@Query("halls") String halllist);
+
+    @GET("categories/{cid}/{pid}.txt")
+    Observable<Response<String>> getDesc(Integer cid, Integer pid);
 }

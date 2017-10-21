@@ -15,8 +15,4 @@ class RecommendActivityPresenter extends BasePresenter<RecommendActivity> {
     protected RecommendActivityPresenter(RecommendActivity view) {
         super(view);
     }
-
-    public void requestCards() {
-        getView().setCards(new Object[10]);
-    }
 }

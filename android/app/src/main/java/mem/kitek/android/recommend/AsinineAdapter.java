@@ -40,11 +40,11 @@ public class AsinineAdapter extends RecyclerView.Adapter<AsinineAdapter.VH> {
 
     @Override
     public int getItemCount() {
-        return anInt;
+        return imageList.size();
     }
 
     public void onRemove(int adapterPosition) {
-        anInt--;
+        imageList.remove(adapterPosition);
         notifyItemRemoved(adapterPosition);
     }
 

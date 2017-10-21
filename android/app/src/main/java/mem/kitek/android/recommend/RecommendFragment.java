@@ -65,7 +65,7 @@ public class RecommendFragment extends BaseFragment {
 //        setRecycler(imageList);
     }
 
-    private void setRecycler(List<CompositeImage> imageList) {
+    public void setRecycler(List<CompositeImage> imageList) {
         adapter = new AsinineAdapter(getContext(), imageList);
         recycler.setAdapter(adapter);
     }

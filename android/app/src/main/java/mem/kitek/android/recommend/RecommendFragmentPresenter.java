@@ -10,6 +10,7 @@ import mem.kitek.android.meta.BasePresenter;
 import mem.kitek.android.meta.scope.FragmentScope;
 import mem.kitek.android.service.KiteqAPI;
 import mem.kitek.android.service.ServiceAPI;
+import rx.Observable;
 
 /**
  * Created by cat on 10/22/17.
@@ -17,8 +18,7 @@ import mem.kitek.android.service.ServiceAPI;
 @FragmentScope
 class RecommendFragmentPresenter extends BasePresenter<RecommendFragment> {
     private static final int AMOUNT = 30;
-    private final @Inject
-    ServiceAPI api;
+    private final ServiceAPI api;
     private List<ApiData.Picture> curPictureList;
 
 
@@ -32,9 +32,37 @@ class RecommendFragmentPresenter extends BasePresenter<RecommendFragment> {
         val s = api.getPictureInfo(AMOUNT)
                 .map(KiteqAPI::unwrap)
                 .map(ApiData.PictureData::getPictures)
-                .subscribe(list -> {
-                    curPictureList = list;
-                    
-                })
+                .subscribe(this::processData, e -> {}, () -> {});
+    }
+
+    private void processData(List<ApiData.Picture> pictures) {
+        Observable<ApiData.Picture> from = Observable.from(pictures);
+        val o1 = from
+                .map(pic -> "http://kitek.kostya.sexy/api/"
+                                + "categories/"
+                                + pic.cid + "/"
+                                + pic.pid + ".jpg");
+        val o2 = from
+                .flatMap(pic -> api.getDesc(pic.cid, pic.pid))
+                .map(res -> {
+                    if (res.isSuccessful())
+                        return res.body();
+
+                    throw new RuntimeException("no desc!");
+                });
+
+        val o3 = from
+                .map(it -> it.cid);
+
+        val o4 = from
+                .map(it -> it.pid);
+
+        val of = Observable.zip(o1, o2, o3, o4, CompositeImage::new)
+                .toList()
+                .subscribe(this::submit);
+    }
+
+    private void submit(List<CompositeImage> compositeImages) {
+        getView().setRecycler(compositeImages);
     }
 }
