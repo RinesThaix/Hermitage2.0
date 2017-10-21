@@ -14,6 +14,7 @@ public class ApiManager {
         new GetBuildingById();
         new GetHallsGeneralInfo();
         new GetPictures();
+        new TinderFinished();
     }
 
 }

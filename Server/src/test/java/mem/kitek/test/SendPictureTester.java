@@ -19,7 +19,7 @@ import java.util.List;
 public class SendPictureTester {
 
     private final static List<File> files = Lists.newArrayList(
-            new File("/Users/RinesThaix/Desktop/test/3.jpg")
+            new File("/Users/RinesThaix/Desktop/test/coding.jpg")
     );
 
     public static void main(String[] args) throws Exception {

@@ -65,7 +65,7 @@ public class CameraTester {
 
     private static void requestCameraOnline() throws Exception {
         JSONParser parser = new JSONParser();
-        JSONObject result = (JSONObject) parser.parse(executeGet("http://78.155.192.82:8228/api/getPeopleInHall?hall_id=1"));
+        JSONObject result = (JSONObject) parser.parse(executeGet("http://78.155.192.82:8228/api/getHallByID?hall_id=11"));
         if(result.containsKey("error"))
             System.out.println("ERROR: " + result.get("error_message"));
         else
