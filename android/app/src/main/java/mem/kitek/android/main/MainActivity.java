@@ -26,6 +26,7 @@ import mem.kitek.android.map.MapFragment;
 import mem.kitek.android.map.MapFragment_;
 import mem.kitek.android.meta.BaseActivity;
 import mem.kitek.android.meta.scope.ActivityScope;
+import mem.kitek.android.recommend.RecommendFragment_;
 
 /**
  * Created by cat on 10/20/17.
@@ -65,7 +66,7 @@ public class MainActivity extends BaseActivity {
     @AfterViews
     void init() {
         tabbar.addItem(new AHBottomNavigationItem("Map", R.drawable.ic_map_black_24dp));
-        tabbar.addItem(new AHBottomNavigationItem("Search", R.drawable.ic_search_black_24dp));
+        tabbar.addItem(new AHBottomNavigationItem("Recommend", R.drawable.ic_search_black_24dp));
         tabbar.addItem(new AHBottomNavigationItem("Memes", R.drawable.ic_more_horiz_black_24dp));
 
         tabbar.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
@@ -97,6 +98,8 @@ public class MainActivity extends BaseActivity {
         switch (position) {
             case 0:
                 return MapFragment_.builder().build();
+            case 1:
+                return RecommendFragment_.builder().build();
             default:
                 return null;
         }

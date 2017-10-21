@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import javax.inject.Inject;
-import javax.xml.transform.Source;
 
 import lombok.Getter;
 import mem.kitek.R;
-import mem.kitek.android.view.ImgCardView_;
 
 /**
  * Created by cat on 10/20/17.
@@ -20,11 +20,12 @@ import mem.kitek.android.view.ImgCardView_;
 public class AsinineAdapter extends RecyclerView.Adapter<AsinineAdapter.VH> {
     private final @Getter
     Context context;
-    private int anInt = 10;
+    private final List<CompositeImage> imageList;
 
     @Inject
-    public AsinineAdapter(Context context) {
+    public AsinineAdapter(Context context, List<CompositeImage> imageList) {
         this.context = context;
+        this.imageList = imageList;
     }
 
     @Override

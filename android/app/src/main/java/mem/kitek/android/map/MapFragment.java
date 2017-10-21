@@ -1,6 +1,5 @@
 package mem.kitek.android.map;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,16 +16,13 @@ import org.androidannotations.annotations.ViewById;
 import javax.inject.Inject;
 
 import autodagger.AutoComponent;
-import autodagger.AutoExpose;
 import autodagger.AutoInjector;
 import dagger.Module;
 import dagger.Provides;
 import lombok.Getter;
-import lombok.val;
 import mem.kitek.R;
 import mem.kitek.android.MemeApplication;
 import mem.kitek.android.MemeApplicationComponent;
-import mem.kitek.android.main.MainActivity;
 import mem.kitek.android.meta.BaseFragment;
 import mem.kitek.android.meta.scope.FragmentScope;
 
@@ -81,11 +77,16 @@ public class MapFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.dropAll();
+    }
+
     @AfterViews
     void init() {
         Log.d(TAG, "init: happening!");
         presenter.setupMap();
-        presenter.setupNodes();
     }
 
 

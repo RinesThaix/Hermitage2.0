@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clip android:clipOrientation="vertical" android:drawable="@drawable/ic_local_pizza_black_bg_24dp" android:gravity="clip_vertical|bottom" xmlns:android="http://schemas.android.com/apk/res/android">
+</clip>
