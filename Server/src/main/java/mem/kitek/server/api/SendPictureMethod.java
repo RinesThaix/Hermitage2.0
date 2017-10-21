@@ -9,7 +9,6 @@ import mem.kitek.server.util.ImageNeuralParsingResult;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 /**
  * Created by RINES on 20.10.17.
@@ -35,18 +34,16 @@ public class SendPictureMethod {
         File tempImage = new File(temporary, name);
         tempImage.createNewFile();
         Files.write(tempImage.toPath(), image);
-        ImageNeuralParsingResult result = getPeopleOn(tempImage.toPath());
-        if(result != null) {
-            HallManager.changeOnline(camId, result.getPeople());
-            if(camId == 1)
-                ImageDisplayer.display(result.getPathToHighlightedImage());
-            result.getPathToHighlightedImage().toFile().delete();
+        synchronized(calculus) {
+            ImageNeuralParsingResult result = calculus.parse(tempImage.toPath());
+            if(result != null) {
+                HallManager.changeOnline(camId, result.getPeople());
+                if(camId == 1)
+                    ImageDisplayer.display(result.getPathToHighlightedImage());
+                result.getPathToHighlightedImage().toFile().delete();
+            }
         }
         tempImage.delete();
-    }
-
-    private synchronized static ImageNeuralParsingResult getPeopleOn(Path path) {
-        return calculus.parse(path);
     }
 
 }

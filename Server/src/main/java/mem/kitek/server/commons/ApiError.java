@@ -10,7 +10,8 @@ public enum ApiError {
     INTERNAL_EXCEPTION("Internal exception occurred whilst executing your request: %s"),
     ARGUMENT_NOT_SPECIFIED("We were unable to find argument %s in your request"),
     ILLEGAL_ARGUMENT_FORMAT("Some of arguments are given in illegal format"),
-    UNKNOWN_HALL("Hall with given id (%d) doesn't exist");
+    UNKNOWN_HALL("Hall with given id (%d) doesn't exist"),
+    UNKNOWN_HALL_CATEGORY("Hall category with given id (%d) doesn't exist");
 
     private final String text;
 
