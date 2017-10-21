@@ -17,7 +17,12 @@ public class HallCategory {
         File images = new File("src/main/webapp/categories/" + id);
         if(!images.exists())
             images.mkdirs();
-        this.images = images.listFiles().length;
+        int amount = 0;
+        for(File file : images.listFiles()) {
+            if(file.getName().endsWith(".jpg"))
+                ++amount;
+        }
+        this.images = amount;
     }
 
     public int getId() {
