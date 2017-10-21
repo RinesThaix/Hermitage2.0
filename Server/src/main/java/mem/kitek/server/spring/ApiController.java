@@ -60,6 +60,7 @@ public class ApiController {
         }catch(NumberFormatException ex) {
             return ApiError.ILLEGAL_ARGUMENT_FORMAT.toJson();
         }catch(Exception ex) {
+            ex.printStackTrace();
             return ApiError.INTERNAL_EXCEPTION.toJson(ex.getMessage());
         }
     }
