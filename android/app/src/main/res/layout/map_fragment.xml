@@ -7,4 +7,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <mem.kitek.android.view.LoadingOverlayer_
+        android:focusable="true"
+        android:clickable="true"
+        android:id="@+id/overlayer"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </FrameLayout>

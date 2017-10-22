@@ -3,7 +3,6 @@ package mem.kitek.android.main;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -13,16 +12,13 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import autodagger.AutoComponent;
-import autodagger.AutoExpose;
 import autodagger.AutoInjector;
 import dagger.Module;
 import dagger.Provides;
 import lombok.val;
 import mem.kitek.R;
-import mem.kitek.android.DaggerMemeApplicationComponent;
 import mem.kitek.android.MemeApplication;
 import mem.kitek.android.MemeApplicationComponent;
-import mem.kitek.android.map.MapFragment;
 import mem.kitek.android.map.MapFragment_;
 import mem.kitek.android.meta.BaseActivity;
 import mem.kitek.android.meta.scope.ActivityScope;
@@ -65,9 +61,12 @@ public class MainActivity extends BaseActivity {
 
     @AfterViews
     void init() {
-        tabbar.addItem(new AHBottomNavigationItem("Map", R.drawable.ic_map_black_24dp));
-        tabbar.addItem(new AHBottomNavigationItem("Recommend", R.drawable.ic_search_black_24dp));
-        tabbar.addItem(new AHBottomNavigationItem("Memes", R.drawable.ic_more_horiz_black_24dp));
+        tabbar.addItem(new AHBottomNavigationItem("Карта", R.drawable.ic_map_black_24dp));
+        tabbar.addItem(new AHBottomNavigationItem("Посоветуй!", R.drawable.ic_search_black_24dp));
+        tabbar.addItem(new AHBottomNavigationItem("Хм...", R.drawable.ic_more_horiz_black_24dp));
+        tabbar.setDefaultBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        tabbar.setAccentColor(getResources().getColor(R.color.colorAccent));
+        tabbar.setInactiveColor(getResources().getColor(R.color.colorPrimaryButNotSoDark));
 
         tabbar.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
@@ -82,6 +81,17 @@ public class MainActivity extends BaseActivity {
         toFragment(0);
     }
 
+    public void toFragment(Fragment f, int position) {
+        if (f == null) {
+            Log.e("Main", "toFragment: to null?");
+            return;
+        }
+
+        tabbar.setCurrentItem(position, false);
+        val fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.container, f, "tag").commit();
+    }
+
     private void toFragment(int position) {
         val fm = getSupportFragmentManager();
         val f = resolveForPosition(position);
@@ -91,7 +101,7 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        fm.beginTransaction().replace(R.id.container, f, "tag").commitNowAllowingStateLoss();
+        fm.beginTransaction().replace(R.id.container, f, "tag").commit();
     }
 
     private Fragment resolveForPosition(int position) {

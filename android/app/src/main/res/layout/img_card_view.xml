@@ -17,9 +17,10 @@
             <!--todo remove width hardcode-->
             <ImageView
                 android:id="@+id/image"
+                android:scaleType="centerInside"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                android:padding="6dp" />
+                android:padding="32dp" />
         </FrameLayout>
 
     </FrameLayout>

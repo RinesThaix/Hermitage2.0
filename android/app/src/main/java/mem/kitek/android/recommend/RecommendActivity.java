@@ -95,7 +95,7 @@ public class RecommendActivity extends BaseActivity {
 
                     AsinineAdapter adapter = getAdapter();
                     if (adapter != null)
-                        adapter.onRemove(adapterPosition);
+                        adapter.onRemove(adapterPosition, (direction == ItemTouchHelper.LEFT) ? CompositeImage.DISLIKE : CompositeImage.LIKE);
                 }
             }
         };

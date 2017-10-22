@@ -12,19 +12,17 @@ import rx.Observable;
  */
 
 public interface ServiceAPI {
-    @GET("getPictures")
+    @GET("api/getPictures")
     Observable<Response<ApiData.PictureData>> getPictureInfo(@Query("amount") int amount);
 
-    @GET("getHallById")
+    @GET("api/getHallById")
     Observable<Response<ApiData.HallInfo>> getHallInfo(@Query("hall_id") int hallId);
 
     // typeme!
 //    @GET("categories/{cid}/{pid}.jpg")
 //    Observable<Response<?>> getPicture(@Path("cid") int cid, @Path("pid") int pid);
 
-    @GET("bunchPeopleInHalls")
+    @GET("api/bunchPeopleInHalls")
     Observable<Response<ApiData.PeopleList>> getBatchPop(@Query("halls") String halllist);
 
-    @GET("categories/{cid}/{pid}.txt")
-    Observable<Response<String>> getDesc(Integer cid, Integer pid);
 }

@@ -2,6 +2,7 @@ package mem.kitek.android.map;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,10 @@ import com.qozix.tileview.TileView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,6 +29,8 @@ import mem.kitek.android.MemeApplication;
 import mem.kitek.android.MemeApplicationComponent;
 import mem.kitek.android.meta.BaseFragment;
 import mem.kitek.android.meta.scope.FragmentScope;
+import mem.kitek.android.recommend.CompositeImage;
+import mem.kitek.android.view.LoadingOverlayer;
 
 /**
  * Created by cat on 10/21/17.
@@ -42,6 +48,10 @@ public class MapFragment extends BaseFragment {
     private ViewGroup container;
     @Inject
     MapFragmentPresenter presenter;
+    @Nullable @FragmentArg
+    CompositeImage.Holder resolution;
+    @ViewById
+    LoadingOverlayer overlayer;
 
     @Override
     protected void performInject(MemeApplicationComponent component) {
@@ -87,7 +97,20 @@ public class MapFragment extends BaseFragment {
     void init() {
         Log.d(TAG, "init: happening!");
         presenter.setupMap();
+        disableOverlay();
+
+        if (resolution != null) {
+            enableOverlay("Высчитываем маршрут...");
+        }
     }
 
+    void enableOverlay(String text) {
+        overlayer.setVisibility(View.VISIBLE);
 
+        overlayer.setText(text);
+    }
+
+    void disableOverlay() {
+        overlayer.setVisibility(View.GONE);
+    }
 }

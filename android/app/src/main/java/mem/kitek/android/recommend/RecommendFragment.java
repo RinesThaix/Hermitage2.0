@@ -5,10 +5,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -39,6 +41,8 @@ public class RecommendFragment extends BaseFragment {
     RecyclerView recycler;
     private AsinineAdapter adapter;
 
+    @ViewById
+    TextView text;
     @Inject
     RecommendFragmentPresenter presenter;
 
@@ -62,12 +66,15 @@ public class RecommendFragment extends BaseFragment {
     @AfterViews
     void init() {
         preInitRecycler();
+        presenter.requestImages();
 //        setRecycler(imageList);
     }
 
     public void setRecycler(List<CompositeImage> imageList) {
-        adapter = new AsinineAdapter(getContext(), imageList);
-        recycler.setAdapter(adapter);
+        adapter = new AsinineAdapter(getContext(), imageList, presenter);
+        adapter.setTextViewRef(text);
+        if (recycler != null)
+            recycler.setAdapter(adapter);
     }
 
     private void preInitRecycler() {
@@ -80,7 +87,7 @@ public class RecommendFragment extends BaseFragment {
                 view.measure(anyMS, anyMS);
                 val i = parent.getChildAdapterPosition(view);
                 if (i != 0) {
-                    outRect.set(0, -view.getMeasuredHeight() + 6, 0, 0);
+                    outRect.set(0, -view.getMeasuredHeight() + 3, 0, 0);
                 }
                 else
                     outRect.set(0, 0, 0, 0);
@@ -99,7 +106,7 @@ public class RecommendFragment extends BaseFragment {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
 
                     if (adapter != null)
-                        adapter.onRemove(adapterPosition);
+                        adapter.onRemove(adapterPosition, (direction == ItemTouchHelper.LEFT) ? CompositeImage.DISLIKE : CompositeImage.LIKE);
                 }
             }
         };

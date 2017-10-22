@@ -60,6 +60,7 @@ dependencies {
     compile 'com.aurelhubert:ahbottomnavigation:2.1.0'
     compile 'com.qozix:tileview:2.2.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
 //    compile 'com.bartoszlipinski:viewpropertyobjectanimator:1.4.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
 //    compile 'net.danlew:android.joda:2.9.9'

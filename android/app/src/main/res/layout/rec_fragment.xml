@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
     <mem.kitek.android.view.SqFrameLayout
+        android:layout_marginTop="16dp"
         android:id="@+id/square"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,14 +14,50 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </mem.kitek.android.view.SqFrameLayout>
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:id="@+id/icons"
+        android:layout_below="@id/square"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp">
+        <ImageView
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back_black_24dp"/>
+        <ImageView
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_black_24dp"/>
+        <View
+            android:layout_width="72dp"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_favorite_black_24dp"/>
+        <ImageView
+            android:padding="6dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_forward_black_24dp"/>
+    </LinearLayout>
 
     <TextView
         android:padding="32dp"
-        android:textSize="16sp"
-        android:layout_below="@id/square"
+        android:textSize="20sp"
+        tools:text="MEMES"
+        android:textStyle="bold"
+        android:id="@+id/text"
+        android:layout_below="@id/icons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="mememes"
         android:layout_alignParentBottom="true"/>
 </RelativeLayout>

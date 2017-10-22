@@ -18,6 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 import rx.exceptions.Exceptions;
 
 /**
@@ -27,9 +28,10 @@ import rx.exceptions.Exceptions;
 @AppScope
 @Module
 public class KiteqAPI {
-    private final Retrofit retrofit;
     private final
     ServiceAPI api;
+    private final
+    RawServiceAPI rawApi;
     private static final
     ObjectMapper mapper = new ObjectMapper();
 
@@ -43,14 +45,22 @@ public class KiteqAPI {
         inter.setLevel(HttpLoggingInterceptor.Level.BODY);
         val okhttp = new OkHttpClient.Builder().addInterceptor(inter).build();
 
-        retrofit = new Retrofit.Builder()
+        val retrofit = new Retrofit.Builder()
                 .addConverterFactory(JacksonConverterFactory.create(mapper))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl("http://kitek.kostya.sexy/api/")
+                .baseUrl("http://kitek.kostya.sexy/")
+                .client(okhttp)
+                .build();
+
+        val retrofitNP = new Retrofit.Builder()
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl("http://kitek.kostya.sexy/")
                 .client(okhttp)
                 .build();
 
         api = retrofit.create(ServiceAPI.class);
+        rawApi = retrofitNP.create(RawServiceAPI.class);
     }
 
     @SneakyThrows
@@ -69,6 +79,12 @@ public class KiteqAPI {
     @AutoExpose(MemeApplication.class)
     public ServiceAPI getApi() {
         return KiteqAPI.this.api;
+    }
+
+    @Provides
+    @AutoExpose(MemeApplication.class)
+    public RawServiceAPI getRawApi() {
+        return KiteqAPI.this.rawApi;
     }
 
     @Provides
