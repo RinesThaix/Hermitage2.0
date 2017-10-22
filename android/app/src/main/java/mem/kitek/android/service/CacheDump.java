@@ -8,8 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.inject.Inject;
 
 import autodagger.AutoExpose;
+import dagger.Module;
 import lombok.Setter;
 import lombok.val;
+import mem.kitek.android.MemeApplication;
 import mem.kitek.android.data.ApiData;
 import mem.kitek.android.meta.scope.AppScope;
 import rx.Observable;
@@ -19,7 +21,8 @@ import rx.exceptions.Exceptions;
  * Created by cat on 10/22/17.
  */
 
-//@AppScope
+@AppScope
+@AutoExpose(MemeApplication.class)
 public class CacheDump {
     private final ServiceAPI api;
     private @Setter
@@ -30,14 +33,14 @@ public class CacheDump {
     }
 
     public Observable<ApiData.HallInfo> getHallInfo(int id) {
-//        if (halls.get(id) == null) {
-//            val it = api.getHallInfo(id).doOnNext(arg -> {
-//                try {
-//                    halls.put(id, KiteqAPI.unwrap(arg));
-//                } catch (Exception ignored) {}
-//            });
-//            return it;
+        if (halls.get(id) == null) {
+            return api.getHallInfo(id).map(arg -> {
+                ApiData.HallInfo unwrap = KiteqAPI.unwrap(arg);
+                halls.put(id, unwrap);
+                return unwrap;
+            });
+        }
 
-        return null;
+        return Observable.just(halls.get(id));
     }
 }

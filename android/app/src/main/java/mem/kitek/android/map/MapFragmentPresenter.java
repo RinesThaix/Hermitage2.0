@@ -19,6 +19,7 @@ import mem.kitek.android.data.ApiData;
 import mem.kitek.android.data.Node;
 import mem.kitek.android.meta.BasePresenter;
 import mem.kitek.android.meta.scope.FragmentScope;
+import mem.kitek.android.recommend.CompositeImage;
 import mem.kitek.android.service.CacheDump;
 import mem.kitek.android.service.KiteqAPI;
 import mem.kitek.android.service.ServiceAPI;
@@ -166,9 +167,7 @@ class MapFragmentPresenter extends BasePresenter<MapFragment> {
                 .doOnNext(it -> {
                     Log.d(TAG, "loadTotal: hall collected : " + it.hall_id);
                 })
-                .flatMap(it -> api.getHallInfo(it.hall_id))
-                .doOnNext(it -> Log.d(TAG, "loadTotal: UNWRAPPO"))
-                .map(KiteqAPI::unwrap)
+                .flatMap(it -> dump.getHallInfo(it.hall_id))
                 .filter(it -> it.getBuilding() != null)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -238,5 +237,9 @@ class MapFragmentPresenter extends BasePresenter<MapFragment> {
         }
 
         return null;
+    }
+
+    void handlePrefs(List<CompositeImage> images) {
+
     }
 }

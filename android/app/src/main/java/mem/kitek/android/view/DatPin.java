@@ -1,9 +1,12 @@
 package mem.kitek.android.view;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -11,6 +14,7 @@ import org.androidannotations.annotations.EView;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
 import mem.kitek.R;
 
 /**
@@ -41,6 +45,8 @@ public class DatPin extends ImageView {
     }
 
     public void setPeopleCount(int peopleCount) {
+        val a = ObjectAnimator.ofInt(this, "visibility", null, null);
+        a.setObjectValues();
         setImageLevel(10000 * peopleCount / 12 );
         Log.d("MEMES", "setPeopleCount: we " + peopleCount + " at " + hallId + " bois");
     }
