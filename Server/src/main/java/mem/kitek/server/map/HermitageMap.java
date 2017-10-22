@@ -7,7 +7,11 @@ public class HermitageMap {
 
     private final static Graph graph = new Graph();
 
-    public static void init() {
+    static {
+        init();
+    }
+
+    private static void init() {
         eup(11, 24);
         e(24, 27);
         e(27, 33);
@@ -181,6 +185,10 @@ public class HermitageMap {
         e(0, 24);
         e(0, 100);
         e(0, 89);
+    }
+
+    public static Graph getGraph() {
+        return graph;
     }
 
     private static void eup(int a, int b) {

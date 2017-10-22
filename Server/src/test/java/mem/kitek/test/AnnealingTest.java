@@ -6,11 +6,11 @@ import mem.kitek.server.path_finder.Path;
 
 public class AnnealingTest {
     public static void main(String[] args) {
-        Graph graph = new Graph();
-        init(graph);
-        Annealer annealer = new Annealer(graph);
-        Path path = annealer.run();
-        System.out.println(path.getData());
+//        Graph graph = new Graph();
+//        init(graph);
+//        Annealer annealer = new Annealer(graph);
+//        Path path = annealer.run();
+//        System.out.println(path.getData());
     }
 
     private static void init(Graph g) {

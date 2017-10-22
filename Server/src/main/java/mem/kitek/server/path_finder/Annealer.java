@@ -1,5 +1,6 @@
 package mem.kitek.server.path_finder;
 
+import mem.kitek.server.commons.Hall;
 import mem.kitek.server.map.Graph;
 
 import java.util.*;
@@ -11,11 +12,13 @@ public class Annealer {
     private double temp = INITIAL_TEMP;
     private Evaluator evaluator;
     private Graph graph;
+    private Set<Hall> wanted;
     private Random rnd = new Random("я устал, почему это не работает?".hashCode());
 
-    public Annealer(Graph graph) {
-        evaluator = new Evaluator(graph);
+    public Annealer(Graph graph, Set<Hall> wanted) {
+        evaluator = new Evaluator(graph, wanted);
         this.graph = graph;
+        this.wanted = wanted;
     }
 
     public Path run() {
