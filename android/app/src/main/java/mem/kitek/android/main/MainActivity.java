@@ -1,8 +1,10 @@
 package mem.kitek.android.main;
 
+import android.app.job.JobWorkItem;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -10,6 +12,9 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+
+import javax.inject.Inject;
 
 import autodagger.AutoComponent;
 import autodagger.AutoInjector;
@@ -23,6 +28,11 @@ import mem.kitek.android.map.MapFragment_;
 import mem.kitek.android.meta.BaseActivity;
 import mem.kitek.android.meta.scope.ActivityScope;
 import mem.kitek.android.recommend.RecommendFragment_;
+import mem.kitek.android.service.KiteqAPI;
+import mem.kitek.android.service.ServiceAPI;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by cat on 10/20/17.
@@ -38,6 +48,9 @@ public class MainActivity extends BaseActivity {
 
     @ViewById
     FrameLayout container;
+
+    @Inject
+    ServiceAPI api;
 
     private int currentPosition = 0;
 
@@ -71,8 +84,19 @@ public class MainActivity extends BaseActivity {
         tabbar.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-                if (!wasSelected)
-                    toFragment(position);
+                if (!wasSelected) {
+                    if (position != 2) {
+                        toFragment(position);
+                    } else {
+                        api.time()
+                                .map(KiteqAPI::unwrap)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread()).subscribe(t ->
+                                Toast.makeText(MainActivity.this, "Время ожидания: " + t.minutes + " мин.", Toast.LENGTH_SHORT).show());
+                        return false;
+                    }
+                }
+
 
                 return !wasSelected;
             }

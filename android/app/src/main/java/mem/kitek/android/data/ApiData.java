@@ -92,4 +92,13 @@ public class ApiData {
         @JsonProperty("people")
         public List<Integer> people;
     }
+
+    public static class HallsPath {
+        @Getter
+        List<Integer> halls;
+    }
+
+    public static class Mins {
+        public int minutes;
+    }
 }

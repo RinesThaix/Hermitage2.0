@@ -25,4 +25,10 @@ public interface ServiceAPI {
     @GET("api/bunchPeopleInHalls")
     Observable<Response<ApiData.PeopleList>> getBatchPop(@Query("halls") String halllist);
 
+    @GET("api/tinderFinished")
+    Observable<Response<ApiData.HallsPath>> finalizeTinder(@Query("probabilities") String probs);
+
+    @GET("api/getAverageWaitingTime")
+    Observable<Response<ApiData.Mins>> time();
+
 }
