@@ -5,7 +5,12 @@ import mem.kitek.server.HallManager;
 import mem.kitek.server.commons.ApiMethod;
 import mem.kitek.server.commons.Hall;
 import mem.kitek.server.commons.HallCategory;
+import mem.kitek.server.map.HermitageMap;
+import mem.kitek.server.path_finder.Annealer;
+import mem.kitek.server.path_finder.Path;
 import mem.kitek.server.util.IRecommendation;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +38,11 @@ public class TinderFinished extends ApiMethod {
             probs.put(HallManager.getHallCategory(id), probability / 100F);
         }
         Set<Hall> result = this.recommendation.getNecessaryHalls(probs);
-        //return something
-        return "WIP";
+        Path path = new Annealer(HermitageMap.getGraph(), result).run();
+        JSONObject json = new JSONObject();
+        JSONArray array = new JSONArray();
+        array.addAll(path.getData());
+        json.put("halls", array);
+        return json.toJSONString();
     }
 }

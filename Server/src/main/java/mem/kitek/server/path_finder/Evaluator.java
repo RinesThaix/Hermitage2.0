@@ -1,6 +1,7 @@
 package mem.kitek.server.path_finder;
 
 import mem.kitek.server.HallManager;
+import mem.kitek.server.commons.Hall;
 import mem.kitek.server.map.Graph;
 
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 public class Evaluator {
     private Graph graph;
+    private Set<Hall> wanted;
     private static Random rnd = new Random("I dunno how to get info about what person likes".hashCode());
 
     private final static int GOOD_CAT_BONUS = 5;
@@ -16,12 +18,13 @@ public class Evaluator {
     private final static int CROWD_THRESHOLD = 10; // TODO use total room capacity to determine this
     private final static int DOUBLE_ENTRANCE_BONUS = -10;
 
-    public Evaluator(Graph graph) {
+    public Evaluator(Graph graph, Set<Hall> wanted) {
         this.graph = graph;
+        this.wanted = wanted;
     }
 
     private boolean likes(int category) {
-        return rnd.nextBoolean();
+        return wanted.stream().anyMatch(hall -> hall.getCategory().getId() == category);
     }
 
     // impl note
