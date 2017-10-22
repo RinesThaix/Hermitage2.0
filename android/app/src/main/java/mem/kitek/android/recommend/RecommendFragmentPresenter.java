@@ -60,6 +60,8 @@ class RecommendFragmentPresenter extends BasePresenter<RecommendFragment> {
         val of = Observable.zip(o1, o2, o3, o4, CompositeImage::new)
                 .toList()
                 .subscribe(this::submit);
+
+        register(of);
     }
 
     private void submit(List<CompositeImage> compositeImages) {

@@ -10,16 +10,16 @@
         android:layout_gravity="center_horizontal">
 
         <FrameLayout
+            android:background="@drawable/card_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--todo remove width hardcode-->
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                android:padding="6dp"
-                android:elevation="3dp"
-                android:src="@drawable/perforated" />
+                android:padding="6dp" />
         </FrameLayout>
 
     </FrameLayout>

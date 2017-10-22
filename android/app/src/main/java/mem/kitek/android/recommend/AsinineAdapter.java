@@ -5,6 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,7 +38,7 @@ public class AsinineAdapter extends RecyclerView.Adapter<AsinineAdapter.VH> {
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        holder.bindTo(position);
+        holder.bindTo(imageList.get(position));
     }
 
     @Override
@@ -49,12 +52,19 @@ public class AsinineAdapter extends RecyclerView.Adapter<AsinineAdapter.VH> {
     }
 
     public class VH extends RecyclerView.ViewHolder {
+        ImageView view;
+
         public VH(View itemView) {
             super(itemView);
+
+            view = itemView.findViewById(R.id.image);
         }
 
-        void bindTo(Object typeMe) {
-
+        void bindTo(CompositeImage typeMe) {
+            Picasso.with(getContext())
+                    .load(typeMe.srcUrl)
+                    .centerInside()
+                    .into(view);
         }
     }
 }
