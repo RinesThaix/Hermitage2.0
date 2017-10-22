@@ -70,9 +70,7 @@ public class KiteqAPI {
                 return response.body();
             } catch (Exception ignored) {}
 
-        throw new ApiData.ApiException
-                (mapper.readValue(response.raw().body().bytes(),
-                        ApiData.ApiErr.class));
+        throw new RuntimeException("thy art a fag");
     }
 
     @Provides
