@@ -3,6 +3,7 @@ package mem.kitek.server.api;
 import com.google.common.collect.Lists;
 import mem.kitek.server.HallManager;
 import mem.kitek.server.commons.ApiMethod;
+import mem.kitek.server.commons.Hall;
 import mem.kitek.server.commons.HallCategory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,6 +29,9 @@ public class GetPictures extends ApiMethod {
         Map<Integer, List<Integer>> categories = new HashMap<>();
         for(int i = 0; i < HallManager.getHallsCategoriesSize(); ++i) {
             HallCategory category = HallManager.getHallCategory(i);
+            Collection<Hall> halls = HallManager.getHallsByCategory(category);
+            if(halls == null || halls.iterator().next().getFloor() != 1)
+                continue;
             if(category.getImages() > 0) {
                 List<Integer> list = new ArrayList<>();
                 for(int j = 0; j < category.getImages(); ++j) {

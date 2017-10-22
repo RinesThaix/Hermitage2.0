@@ -67,7 +67,6 @@ public class PathCalculus {
         List<Integer> result = new ArrayList<>();
         int i = to;
         while(i != from) {
-            System.out.println("--" + i);
             result.add(i);
             i = path[i];
             if(i == -1)
@@ -75,7 +74,6 @@ public class PathCalculus {
         }
         result.add(from);
         Collections.reverse(result);
-        System.out.println(from + " " + to + " " + result);
         return result;
     }
 

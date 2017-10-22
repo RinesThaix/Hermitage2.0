@@ -3,10 +3,7 @@ package mem.kitek.server.map;
 import mem.kitek.server.HallManager;
 import mem.kitek.server.commons.Hall;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * На самом деле, Эрмитаж.
@@ -22,7 +19,8 @@ public class Graph {
      * @return сет номеров залов, в которые можно попасть из данного зала.
      */
     public Set<Integer> getEdgesFrom(int vertex) {
-        return this.edges.get(vertex);
+        Set<Integer> set = this.edges.get(vertex);
+        return set == null ? Collections.emptySet() : set;
     }
 
     public Map<Integer, Set<Integer>> getEdgesMap() {

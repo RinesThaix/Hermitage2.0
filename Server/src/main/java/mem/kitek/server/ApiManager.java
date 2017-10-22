@@ -16,6 +16,7 @@ public class ApiManager {
         new GetPictures();
         new TinderFinished();
         new BunchPeopleInHalls();
+        new GetAverageWaitingTime();
     }
 
 }
