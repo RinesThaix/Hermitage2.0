@@ -26,7 +26,7 @@ import rx.exceptions.Exceptions;
 public class CacheDump {
     private final ServiceAPI api;
     private @Setter
-    ConcurrentHashMap<Integer, ApiData.HallInfo> halls;
+    ConcurrentHashMap<Integer, ApiData.HallInfo> halls = new ConcurrentHashMap<>();
     @Inject
     public CacheDump(ServiceAPI api) {
         this.api = api;
