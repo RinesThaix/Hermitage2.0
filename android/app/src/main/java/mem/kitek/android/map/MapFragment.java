@@ -2,7 +2,6 @@ package mem.kitek.android.map;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -101,6 +98,7 @@ public class MapFragment extends BaseFragment {
 
         if (resolution != null) {
             enableOverlay("Высчитываем маршрут...");
+            presenter.handlePrefs(resolution.getImageList());
         }
     }
 

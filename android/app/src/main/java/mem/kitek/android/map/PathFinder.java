@@ -19,7 +19,7 @@ public class PathFinder {
         this.nodes = nodes;
     }
 
-    private List<NodeInfo> findPath(NodeInfo start, NodeInfo end) {
+    private List<NodeInfo> findCompositePath(NodeInfo start, NodeInfo end) {
         Queue<NodeInfo> queue = new ArrayDeque<>();
         queue.add(start);
         Set<NodeInfo> used = new HashSet<>();
@@ -46,21 +46,19 @@ public class PathFinder {
         return path;
     }
 
-    public List<NodeInfo> findPath(List<NodeInfo> nodes, List<HallInfo> path) {
-        Map<HallInfo, List<NodeInfo>> hallToNode = new HashMap<>();
-        for (NodeInfo node : nodes) {
-            HallInfo hallInfo = node.getHall_info();
-            if (!hallToNode.containsKey(hallInfo)) {
-                hallToNode.put(hallInfo, new ArrayList<>());
+    public List<NodeInfo> findCompositePath(List<NodeInfo> allNodes, List<HallInfo> path) {
+        Map<Integer, NodeInfo> hallToNode = new HashMap<>();
+        for (NodeInfo node : allNodes) {
+            if (node.hall_id != 0) {
+                hallToNode.put(node.hall_id, node);
             }
-            hallToNode.get(hallInfo).add(node);
         }
 
         List<NodeInfo> nodePath = new ArrayList<>();
         for (int i = 0; i < path.size() - 1; i++) {
-            NodeInfo start = hallToNode.get(path.get(i)).get(0); // TODO which one should I pick???
-            NodeInfo end = hallToNode.get(path.get(i + 1)).get(0);
-            nodePath.addAll(findPath(start, end));
+            NodeInfo start = hallToNode.get(path.get(i).getHall_id()); // TODO which one should I pick???
+            NodeInfo end = hallToNode.get(path.get(i + 1).getHall_id());
+            nodePath.addAll(findCompositePath(start, end));
         }
         return nodePath;
     }

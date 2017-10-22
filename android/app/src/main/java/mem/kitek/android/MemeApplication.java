@@ -7,12 +7,14 @@ import autodagger.AutoExpose;
 import autodagger.AutoInjector;
 import dagger.Module;
 import lombok.Getter;
+import mem.kitek.android.meta.scope.AppScope;
 import mem.kitek.android.service.KiteqAPI;
 
 /**
  * Created by cat on 10/20/17.
  */
 
+@AppScope
 @AutoComponent(modules = KiteqAPI.class)
 @AutoExpose(MemeApplication.Exposer.class)
 @AutoInjector

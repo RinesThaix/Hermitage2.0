@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        fm.beginTransaction().replace(R.id.container, f, "tag").commit();
+        fm.beginTransaction().replace(R.id.container, f).commit();
     }
 
     private Fragment resolveForPosition(int position) {
