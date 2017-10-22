@@ -18,23 +18,36 @@ public class PathCalculus {
 
     private static List<Integer> getPath(Graph graph, int start, int end, Set<Integer> wanted, List<Integer> path, int[][] dists) {
         if(wanted.isEmpty()) {
-            path.addAll(getPath0(graph, start, end, dists));
+            addPath0(path, graph, start, end);
             return path;
         }
         Integer target = wanted.stream().min(Comparator.comparingInt(id -> dists[start][id])).orElse(null);
         if(target == null)
             throw new RuntimeException();
         wanted.remove(target);
-        path.addAll(getPath0(graph, start, target, dists));
+        addPath0(path, graph, start, target);
         return getPath(graph, target, end, wanted, path, dists);
     }
 
-    private static List<Integer> getPath0(Graph graph, int from, int to, int[][] dists) {
+    private static void addPath0(List<Integer> path, Graph graph, int from, int to) {
+        List<Integer> path0 = getPath0(graph, from, to);
+        if(!path.isEmpty()) {
+            if(path.get(path.size() - 1) != path0.get(0))
+                path.add(path0.get(0));
+        }else
+            path.add(path0.get(0));
+        for(int i = 1; i < path0.size(); ++i)
+            path.add(path0.get(i));
+    }
+
+    private static List<Integer> getPath0(Graph graph, int from, int to) {
         int n = graph.getEdgesMap().keySet().stream().mapToInt(i -> i).max().orElse(0) + 1;
         int[] d = new int[n];
         int[] path = new int[n];
+        Arrays.fill(path, -1);
         int max = Integer.MAX_VALUE >> 1;
         Arrays.fill(d, max);
+        d[from] = 0;
         PriorityQueue<Edge> q = new PriorityQueue<>(Comparator.comparingInt(e -> e.a));
         q.add(new Edge(0, from));
         while(!q.isEmpty()) {
@@ -42,12 +55,10 @@ public class PathCalculus {
             q.poll();
             if(cur_d > d[v])
                     continue;
-            for(int t = 0; t < n; ++t) {
-                if(t == v || dists[v][t] == max)
-                    continue;
-                int length = dists[v][t];
-                if(d[v] + length < d[t]) {
-                    d[t] = d[v] + length;
+            for(int t : graph.getEdgesFrom(v)) {
+                int dist = getDist(t, v);
+                if(d[v] + dist < d[t]) {
+                    d[t] = d[v] + dist;
                     path[t] = v;
                     q.add(new Edge(-d[t], t));
                 }
@@ -56,10 +67,15 @@ public class PathCalculus {
         List<Integer> result = new ArrayList<>();
         int i = to;
         while(i != from) {
+            System.out.println("--" + i);
             result.add(i);
             i = path[i];
+            if(i == -1)
+                break;
         }
+        result.add(from);
         Collections.reverse(result);
+        System.out.println(from + " " + to + " " + result);
         return result;
     }
 
@@ -86,13 +102,7 @@ public class PathCalculus {
                 for(int j : edges) {
                     Hall h2 = HallManager.getHall(j);
                     if(h1 != null && h2 != null) {
-                        int o1 = HallManager.getHallOnline(i);
-                        if(o1 == -1)
-                            o1 = 0;
-                        int o2 = HallManager.getHallOnline(j);
-                        if(o2 == -1)
-                            o2 = 0;
-                        d[i][j] = d[j][i] = o1 + o2 + 2;
+                        d[i][j] = d[j][i] = getDist(i, j);
                     }
                 }
         }
@@ -101,6 +111,16 @@ public class PathCalculus {
                 for (int j=0; j<n; ++j)
                     d[i][j] = Math.min(d[i][j], d[i][k] + d[k][j]);
         return d;
+    }
+
+    private static int getDist(int i, int j) {
+        int o1 = HallManager.getHallOnline(i);
+        if(o1 == -1)
+            o1 = 0;
+        int o2 = HallManager.getHallOnline(j);
+        if(o2 == -1)
+            o2 = 0;
+        return o1 + o2 + 2;
     }
 
 }
