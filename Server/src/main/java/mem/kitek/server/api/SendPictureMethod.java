@@ -38,8 +38,7 @@ public class SendPictureMethod {
             ImageNeuralParsingResult result = calculus.parse(tempImage.toPath());
             if(result != null) {
                 HallManager.changeOnline(camId, result.getPeople());
-                if(camId == 1)
-                    ImageDisplayer.display(result.getPathToHighlightedImage());
+                ImageDisplayer.display(camId, result.getPathToHighlightedImage());
                 result.getPathToHighlightedImage().toFile().delete();
             }
         }

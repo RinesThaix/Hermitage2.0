@@ -185,6 +185,8 @@ public class HermitageMap {
         e(0, 24);
         e(0, 100);
         e(0, 89);
+
+        graph.prepare();
     }
 
     public static Graph getGraph() {

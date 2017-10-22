@@ -58,6 +58,7 @@ public class ApiController {
         }catch(ArgumentNotSpecifiedException ex) {
             return ApiError.ARGUMENT_NOT_SPECIFIED.toJson(ex.getArgument());
         }catch(NumberFormatException ex) {
+            ex.printStackTrace();
             return ApiError.ILLEGAL_ARGUMENT_FORMAT.toJson();
         }catch(Exception ex) {
             ex.printStackTrace();

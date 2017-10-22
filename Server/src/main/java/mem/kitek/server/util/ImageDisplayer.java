@@ -13,8 +13,8 @@ public class ImageDisplayer {
 
     }
 
-    public static void display(Path imagePath) throws Exception {
-        File copy = new File("/root/Server/src/main/webapp", "test.jpg");
+    public static void display(int camId, Path imagePath) throws Exception {
+        File copy = new File("/root/Server/src/main/webapp", camId + ".jpg");
         copy.delete();
         Files.copy(imagePath, copy.toPath());
     }

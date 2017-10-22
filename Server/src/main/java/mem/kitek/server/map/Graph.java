@@ -1,5 +1,8 @@
 package mem.kitek.server.map;
 
+import mem.kitek.server.HallManager;
+import mem.kitek.server.commons.Hall;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,6 +25,10 @@ public class Graph {
         return this.edges.get(vertex);
     }
 
+    public Map<Integer, Set<Integer>> getEdgesMap() {
+        return this.edges;
+    }
+
     /**
      * Добавить проход между двумя залами.
      * @param a идентификатор первого зала.
@@ -30,6 +37,24 @@ public class Graph {
     public void edge(int a, int b) {
         edge0(a, b);
         edge0(b, a);
+    }
+
+    /**
+     * DEMO
+     */
+    public void prepare() {
+        for(Map.Entry<Integer, Set<Integer>> entry : new HashMap<>(this.edges).entrySet()) {
+            Hall hall = HallManager.getHall(entry.getKey());
+            if(hall == null || hall.getFloor() != 1) {
+                this.edges.remove(entry.getKey());
+                continue;
+            }
+            new HashSet<>(entry.getValue()).forEach(id -> {
+                Hall h = HallManager.getHall(id);
+                if(h == null || h.getFloor() != 1)
+                    this.edges.get(entry.getKey()).remove(id);
+            });
+        }
     }
 
     private void edge0(int a, int b) {

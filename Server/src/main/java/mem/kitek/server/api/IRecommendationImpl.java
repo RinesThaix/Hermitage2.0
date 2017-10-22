@@ -5,22 +5,15 @@ import mem.kitek.server.commons.Hall;
 import mem.kitek.server.commons.HallCategory;
 import mem.kitek.server.util.IRecommendation;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class IRecommendationImpl implements IRecommendation {
 
     @Override
     public Set<Hall> getNecessaryHalls(Map<HallCategory, Float> probabilities) {
-        Set<Hall> hallSet = new TreeSet<>();
-
-        for (Map.Entry<HallCategory, Float> entry : probabilities.entrySet()) {
-            if (entry.getValue() > 0) {
-                hallSet.addAll(HallManager.getHallsByCategory(entry.getKey()));
-            }
-        }
-
-        return hallSet;
+        return probabilities.entrySet().stream().filter(e -> e.getValue() > 0F)
+                .map(e -> HallManager.getHallsByCategory(e.getKey()))
+                .flatMap(Collection::stream).collect(Collectors.toSet());
     }
 }
