@@ -45,8 +45,6 @@ public class DatPin extends ImageView {
     }
 
     public void setPeopleCount(int peopleCount) {
-        val a = ObjectAnimator.ofInt(this, "visibility", null, null);
-        a.setObjectValues();
         setImageLevel(10000 * peopleCount / 12 );
         Log.d("MEMES", "setPeopleCount: we " + peopleCount + " at " + hallId + " bois");
     }
